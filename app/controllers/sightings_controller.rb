@@ -1,7 +1,8 @@
 class SightingsController < ApplicationController
     def index
         sighting = Sighting.all 
-        render json: sighting, include: [:bird, :location]
+        render json: sighting, include: [:bird, :location], except: [:created_at, :updated_at]
+        # Can use include: in conjunction with except: or only:
     end
     
     def show
