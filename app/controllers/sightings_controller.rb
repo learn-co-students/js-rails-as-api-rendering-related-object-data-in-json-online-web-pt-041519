@@ -8,7 +8,11 @@ class SightingsController < ApplicationController
     def show
         sighting = Sighting.find_by(id: params[:id])
         if sighting
-            render json: sighting, include: [:bird, :location]
+            render json: sighting.to_json(:include => {
+                :bird => {:only => [:name, :species]},
+                :location => {:only => [:latitude, :longitude]}
+            }, :except => [:created_at, :updated_at])
+        # To set nested data options, using to_json can be more readable
         else
             render json: {message: 'No sighting was found with that id.'}
         end
